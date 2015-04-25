@@ -101,3 +101,12 @@ and the call to
 target_link_libraries(testb TF)
 ```
 Picks up the TF library in the correct location.
+
+### CMake source
+
+Framework specific cmake code (possibly relevant?)?
+
+```
+/Users/dhirvonen/devel/CMake/Source/cmTarget.cxx:4117:    realName += "Versions/";
+/Users/dhirvonen/devel/CMake/Source/cmTarget.cxx:6780:    fpath += "/Versions/";
+```
