@@ -49,11 +49,16 @@ target_link_libraries(testa TF)
 ```
 
 for the ios application, the link command fails, since it seems to expect the library to be in a versioned 
-framework layout, which is what I get when running the OS X build shown below.
+framework layout:
 
 ```
 TF.framework/Versions/A/TF
- 
+```
+
+instead it looks like this
+
+```
+TF.framework/TF
 ```
 
 I'm looking for a solution to either:
