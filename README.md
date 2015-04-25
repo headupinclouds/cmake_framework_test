@@ -67,6 +67,8 @@ I'm looking for a solution to either:
 
 ### OS X framework and application success:
 
+When I build this for OS X it seems to work fine.
+
 ```
 bash -fx ./test-osx.sh
 + NAME=_builds/osx
