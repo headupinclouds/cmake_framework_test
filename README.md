@@ -6,7 +6,6 @@ I've included the ios toolchain in this repository to make it easy to reproduce 
 I've include both the iOS application that reproduces the link error, and an OS X application, which links
 to the library in correct framework location.  I'm looking for a CMakeLists.txt fix or possible workaround.
 There are two top level convenience bash scripts for building the applications with cmake using an xcode generator.
-
 ```
 cmake --version
 cmake version 3.2.1
@@ -27,9 +26,7 @@ The following build commands failed:
 (1 failure)
 library path:  _builds/ios/Debug-iphoneos/TF.framework/TF
 ```
-
 This produces a flat framework layout (ignoring the FRAMEWORK_VERSION property (which is fine with me))
-
 ```
 tree _builds/osx/Debug/TF.framework/
 _builds/osx/Debug/TF.framework/
@@ -43,7 +40,6 @@ _builds/osx/Debug/TF.framework/
     │   └── _CodeSignature
     │       └── CodeResources
     └── Current -> A
-
 ```
 
 But when I call
@@ -52,12 +48,17 @@ But when I call
 target_link_libraries(testa TF)
 ```
 
-for the ios application, the link command fails since it seems to expect the library to be in a versioned 
+for the ios application, the link command fails, since it seems to expect the library to be in a versioned 
 framework layout, which is what I get when running the OS X build shown below.
 
 ```
-_builds/ios/Debug-iphoneos/TF.framework/Versions/A/TF
+TF.framework/Versions/A/TF
+ 
 ```
+
+I'm looking for a solution to either:
+* correct the TF link path to use the actual (non versioned) framework layout that is currently generated, or
+* correct the framework so that it uses the versioned layout to make that consistent with the link path 
 
 ### OS X framework and application success:
 
@@ -92,4 +93,4 @@ and the call to
 ```
 target_link_libraries(testb TF)
 ```
-Picks up the TF lib in teh correct location.
+Picks up the TF library in the correct location.
