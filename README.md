@@ -26,37 +26,24 @@ The following build commands failed:
 (1 failure)
 library path:  _builds/ios/Debug-iphoneos/TF.framework/TF
 ```
-This produces a flat framework layout (ignoring the FRAMEWORK_VERSION property (which is fine with me))
+This produces a flat framework layout (ignoring the FRAMEWORK_VERSION property (which is fine with me if I can get it to work)).  It looks like this:
 ```
-tree _builds/osx/Debug/TF.framework/
-_builds/osx/Debug/TF.framework/
-├── Resources -> Versions/Current/Resources
-├── TF -> Versions/Current/TF
-└── Versions
-    ├── A
-    │   ├── Resources
-    │   │   └── Info.plist
-    │   ├── TF
-    │   └── _CodeSignature
-    │       └── CodeResources
-    └── Current -> A
+tree _builds/ios/Debug-iphoneos/TF.framework
+_builds/ios/Debug-iphoneos/TF.framework
+├── Info.plist
+├── TF
+└── _CodeSignature
+    └── CodeResources
 ```
-
-But when I call
-
+But when it reaches the link command for the ios application:
 ```
 target_link_libraries(testa TF)
 ```
-
-for the ios application, the link command fails, since it seems to expect the library to be in a versioned 
-framework layout:
-
+it fails, since it seems to expect the library to be two directories down within a versioned framework layout:
 ```
 TF.framework/Versions/A/TF
 ```
-
-instead it looks like this
-
+instead the directory is here:
 ```
 TF.framework/TF
 ```
