@@ -1,6 +1,7 @@
 #!/bin/bash
 
-cmake -GXcode -H. -B_builds/osx  && \
-xcodebuild -project _builds/osx/tf.xcodeproj -target "testb"
+# _builds/osx/Debug-iphoneos/TF.framework/Versions/A/TF
 
-find _builds/web -name "TF" -type f
+NAME=_builds/osx
+cmake -GXcode -H. -B${NAME} && xcodebuild -project ${NAME}/tf.xcodeproj -target "testb"
+echo -e "library path: $(find ${NAME} -name "TF" -type f)"

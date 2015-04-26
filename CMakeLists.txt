@@ -74,19 +74,6 @@ add_library(TF SHARED ${TF_SRCS})
 
 # See CMake Framework test
 # https://github.com/Kitware/CMake/blob/master/Tests/Framework/CMakeLists.txt
-#
-# Using polly toolchain, application tries to link to generated framework
-# on ios, but fails:
-#
-# clang: error: no such file or directory: 
-# '<PATH>/TF/_builds/ios-8-2-arm64/src/lib/Debug-iphoneos/TF.framework/Versions/A/TF'
-#
-# because the library is actually placed directly in the top level of the framework directory 
-# without the /Versions/${FRAMEWORK_VERSION}:
-# file <PATH>/TF/_builds/ios-8-2-arm64/src/lib/Debug-iphoneos/TF.framework/TF
-
-# set_target_properties(shared shared2 framework PROPERTIES
-#  LIBRARY_OUTPUT_DIRECTORY "${CMAKE_CURRENT_BINARY_DIR}/lib")
 
 message("LIB_INSTALL_DIR: ${LIB_INSTALL_DIR}")
 
@@ -121,10 +108,10 @@ install(TARGETS TF
   RESOURCE DESTINATION ${CMAKE_INSTALL_PREFIX}/share/TF/Resources
 )
 
-# get_cmake_property(_variableNames VARIABLES)
-# foreach (_variableName ${_variableNames})
-#     message(STATUS "VARIABLE: ${_variableName}=${${_variableName}}")
-# endforeach()
+get_cmake_property(_variableNames VARIABLES)
+foreach (_variableName ${_variableNames})
+    message(STATUS "VARIABLE: ${_variableName}=${${_variableName}}")
+endforeach()
 
 if(IOS) # use this test for toolchain compatibility
 
@@ -146,7 +133,12 @@ if(IOS) # use this test for toolchain compatibility
     XCODE_ATTRIBUTE_CODE_SIGN_IDENTITY "iPhone Developer"
     )
 
+  #set_target_properties(testa PROPERTIES SHARED_LIBRARY_FLAGS $<TARGET_FILE:TF>)
+
   target_link_libraries(testa TF)
+  # get_target_property(tf_location TF LOCATION)
+  # message("${tf_location}")
+  # message("LIBRARY AT: $<TARGET_FILE:TF>")
 
 elseif(APPLE) # should be 
   
