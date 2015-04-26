@@ -54,7 +54,7 @@ I'm looking for a solution to either:
 
 ### OS X framework and application success:
 
-When I build this for OS X it seems to work fine.
+When I build this for OS X it seems to work fine.  I'm curious if there is a variable or property that needs to be set for the iOS example to make it give the same behavior. 
 
 ```
 bash -fx ./test-osx.sh
